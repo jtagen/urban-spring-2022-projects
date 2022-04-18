@@ -292,8 +292,6 @@ void loop() {
     state = "none";
    }
 
-  
-
   if (state == "none" && strip_value >= STRIP_MAX) {
     state = "strip_move";
     strip_max = strip_value;
@@ -317,7 +315,6 @@ void loop() {
     state = "none";
   }
 
-  
   if (state == "strip_move" && strip_value == 0) {
     //lifted finger
     state = "none";
@@ -328,10 +325,7 @@ void loop() {
     ws_blink(&led_strip,led_strip.Color(255,0,0));  
     while (analogRead(SENSOR_STRIP)) { }
     state = "none";
-    
-    
   }
-
 
   if (state == "strip_move" && strip_value <= STRIP_MIN && strip_value > (STRIP_MIN-50) ) {
     Serial.println(strip_value);
@@ -341,61 +335,4 @@ void loop() {
     while (analogRead(SENSOR_STRIP)) { }
     state = "none";
   }
-
-
-
-
-
-
 }
-
-
-
-/*
-  int strip = analogRead(A0);
-
-  if (strip > 700)
-    return; //not being touched
-
-    //650 = left
-    //350 = right
-
-  pixels.clear(); // Set all pixel colors to 'off'
-
-
-
-  int pixels_to_show = 20 * strip_percent;
- 
-  for(int i=0; i<20; i++) { // For each pixel...
-
-    // pixels.Color() takes RGB values, from 0,0,0 up to 255,255,255
-    // Here we're using a moderately bright green color:
-    if (i > pixels_to_show)
-      pixels.setPixelColor(i, pixels.Color(0, 0,0));
-    else
-      pixels.setPixelColor(i, pixels.Color(0, 150,0));
-  }
-  pixels.show();  
-
-
-    
-   Serial.println(strip);
-   Serial.println(strip_percent);
-   Serial.println("");
-   delay(500);
-   return;
-     
-
-  // The first NeoPixel in a strand is #0, second is 1, all the way up
-  // to the count of pixels minus one.
-  for(int i=0; i<20; i++) { // For each pixel...
-
-    // pixels.Color() takes RGB values, from 0,0,0 up to 255,255,255
-    // Here we're using a moderately bright green color:
-    pixels.setPixelColor(i, pixels.Color(150, 150,150));
-
-    pixels.show();   // Send the updated pixel colors to the hardware.
-
-//    delay(DELAYVAL); // Pause before next pass through loop
-  }
-*/
