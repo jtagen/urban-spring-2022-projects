@@ -308,24 +308,31 @@ void loop() {
     led_strip.show();
   }
   
+/*
+ // Disable backsliding detection. Was failing during demo!!
+ 
   Serial.print("Backslide val: ");
   Serial.println(strip_value-strip_max);
   if (state == "strip_move" && (strip_value-strip_max) > STRIP_BACKSLIDE) {
     ws_blink(&led_strip,led_strip.Color(255,0,0));
     state = "none";
   }
+*/
 
   if (state == "strip_move" && strip_value == 0) {
     //lifted finger
     state = "none";
     ws_blink(&led_strip,led_strip.Color(255,0,0));  
   }
+  
 
+/*
   if (state == "strip_move" && (millis() - start_time) > STRIP_TIME) {
     ws_blink(&led_strip,led_strip.Color(255,0,0));  
     while (analogRead(SENSOR_STRIP)) { }
     state = "none";
   }
+  */
 
   if (state == "strip_move" && strip_value <= STRIP_MIN && strip_value > (STRIP_MIN-50) ) {
     Serial.println(strip_value);
