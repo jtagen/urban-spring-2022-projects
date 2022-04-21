@@ -1,4 +1,4 @@
-#define DEBUG false
+#define DEBUG true
 #include <Adafruit_NeoPixel.h>
 #include <Wire.h>
 #include "Adafruit_MPR121.h"
@@ -63,6 +63,7 @@ void loop() {
   
       int pos = 12 - i;
       if (pos > max_touch) {
+        //Serial.println("New pos is ");
         if (pos >= 9)
           current_color = pixels.Color(0,255,0);
         else if (pos >= 5)
@@ -70,13 +71,23 @@ void loop() {
         else 
           current_color = pixels.Color(255,0,0);            
       max_touch = pos;
+
+       if (pos == 4 || pos == 8 || pos == 12)
+         blinking = 1;
+       else
+          blinking = 0;
+      
+      //slow timing on epaper write, duplicate here to get an immediate response
+      for (int i=0;i<8;i++)
+          pixels.setPixelColor(i,current_color);
+      pixels.show();
       
       display.clearBuffer();
       display.setTextSize(3);
       display.setCursor((display.width() - 180)/2, (display.height() - 24)/2);
       display.setTextColor(EPD_BLACK);
       display.print(String(10 * max_touch) +  " degrees");
-      display.display();
+      display.display();`
   
       if (DEBUG)
         Serial.print("Reached position " + String(max_touch));
@@ -85,15 +96,14 @@ void loop() {
   }
 
   
-  int t = millis();
-  
-  if ((t % 500) > 250 && blinking == 1) 
+  unsigned long t = millis();
+  if (abs(t % 500) > 250 && blinking == 1) 
     for (int i=0;i<8;i++)
         pixels.setPixelColor(i,0);
-  else
+  else {
     for (int i=0;i<8;i++)
         pixels.setPixelColor(i,current_color);
-  
+  }  
   pixels.show();
 
 }
