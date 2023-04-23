@@ -27,7 +27,7 @@ uint32_t current_color = 0;
 int blinking = 0;
 void setup() {
   if (DEBUG)
-    Serial.begin(115200);
+    Serial.begin(9600);
 
   pinMode(11,OUTPUT);
   digitalWrite(11,HIGH); //power for MPR121
@@ -87,7 +87,7 @@ void loop() {
       display.setCursor((display.width() - 180)/2, (display.height() - 24)/2);
       display.setTextColor(EPD_BLACK);
       display.print(String(10 * max_touch) +  " degrees");
-      display.display();`
+      display.display();
   
       if (DEBUG)
         Serial.print("Reached position " + String(max_touch));
@@ -97,7 +97,7 @@ void loop() {
 
   
   unsigned long t = millis();
-  if (abs(t % 500) > 250 && blinking == 1) 
+  if (abs(int(t % 500)) > 250 && blinking == 1) 
     for (int i=0;i<8;i++)
         pixels.setPixelColor(i,0);
   else {
